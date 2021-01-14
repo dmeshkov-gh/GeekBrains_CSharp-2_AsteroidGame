@@ -16,11 +16,11 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            g.DrawLine(new Pen(Color.WhiteSmoke, 2), 
+            g.DrawLine(new Pen(Color.Yellow, 2), 
                 _Position.X, _Position.Y, 
                 _Position.X + _Size.Width, _Position.Y + _Size.Width);
 
-            g.DrawLine(new Pen(Color.WhiteSmoke, 2), 
+            g.DrawLine(new Pen(Color.YellowGreen, 2), 
                 _Position.X + _Size.Width, _Position.Y, 
                 _Position.X, _Position.Y + _Size.Width);
         }
