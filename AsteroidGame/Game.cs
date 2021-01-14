@@ -35,24 +35,25 @@ namespace AsteroidGame
         public static void Load()
         {
             Random random = new Random();
-            const int visual_objects_count = 60;
+            const int visual_objects_count = 40;
             __GameObjects = new VisualObject[visual_objects_count];
 
             for(int i = 0; i < visual_objects_count / 2; i++)
             {
-                __GameObjects[i] = new VisualObject(
+                __GameObjects[i] = new Star(
+                    new Point(600, random.Next(0, Game.Width)),
+                    new Point(random.Next(-30, -15), 0),
+                    5);
+            }
+
+            for (int i = visual_objects_count / 2; i < (visual_objects_count / 2) + (visual_objects_count / 4); i++)
+            {
+                __GameObjects[i] = new Asteroid(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-15, 15), random.Next(-10, 20)),
                     new Size(20, 20));
             }
 
-            for (int i = visual_objects_count / 2; i < (visual_objects_count / 2) + (visual_objects_count / 4); i++)
-            {
-                __GameObjects[i] = new Star(
-                    new Point(600, random.Next(0, Game.Width)),
-                    new Point(random.Next(-30,-15), 0),
-                    5);
-            }
             for (int i = (visual_objects_count / 2) + (visual_objects_count / 4); i < visual_objects_count; i++)
             {
                 __GameObjects[i] = new Planet(

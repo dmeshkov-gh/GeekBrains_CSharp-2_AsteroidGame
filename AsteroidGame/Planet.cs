@@ -16,8 +16,12 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            g.DrawEllipse(new Pen(Color.Red, 1), 
-                _Position.X, _Position.Y, _Size.Width, _Size.Height);
+            Image planet = Image.FromFile("Planet.jpg");
+
+            g.DrawImage(planet, _Position.X, _Position.Y, _Size.Width, _Size.Height);
+
+            //g.DrawEllipse(new Pen(Color.Red, 1), 
+            //    _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
 
         public override void Update()
