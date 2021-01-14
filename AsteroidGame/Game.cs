@@ -43,7 +43,7 @@ namespace AsteroidGame
                 __GameObjects[i] = new Star(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-30, -15), 0),
-                    5);
+                    10);
             }
 
             for (int i = visual_objects_count / 2; i < (visual_objects_count / 2) + (visual_objects_count / 4); i++)
