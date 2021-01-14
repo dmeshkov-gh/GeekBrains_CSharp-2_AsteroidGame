@@ -21,6 +21,15 @@ namespace AsteroidGame
             __Context = BufferedGraphicsManager.Current;
             Graphics g = GameForm.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
+
+            Timer timer = new Timer { Interval = 100 };
+            timer.Tick += OnTimerTick;
+            timer.Start();
+        }
+        private static void OnTimerTick(object sender, EventArgs e)
+        {
+            Update();
+            Draw();
         }
 
         public static void Load()
