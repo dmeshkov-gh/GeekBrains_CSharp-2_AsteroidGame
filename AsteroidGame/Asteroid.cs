@@ -15,7 +15,7 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            Image asteriod = Image.FromFile("Asteroid.jpg");
+            Image asteriod = Image.FromFile("Asteroid.png");
 
             g.DrawImage(asteriod, _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }

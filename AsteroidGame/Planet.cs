@@ -16,7 +16,7 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            Image planet = Image.FromFile("Planet.jpg");
+            Image planet = Image.FromFile("Planet.png");
 
             g.DrawImage(planet, _Position.X, _Position.Y, _Size.Width, _Size.Height);
 
