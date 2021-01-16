@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AsteroidGame
+namespace AsteroidGame.VisualObjects
 {
     class Asteroid : VisualObject
     {
-        Image asteriod = Image.FromFile("Asteroid.png");
+        private static readonly Image asteriod = Image.FromFile("Asteroid.png");
         public Asteroid(Point Position, Point Direction, Size Size) : base(Position, Direction, Size)
         {
         }

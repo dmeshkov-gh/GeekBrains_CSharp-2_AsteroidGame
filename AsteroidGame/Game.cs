@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using AsteroidGame.VisualObjects;
 
 namespace AsteroidGame
 {
@@ -35,33 +37,32 @@ namespace AsteroidGame
         public static void Load()
         {
             Random random = new Random();
-            const int visual_objects_count = 40;
-            __GameObjects = new VisualObject[visual_objects_count];
+            List<VisualObject> SpaceObjects = new List<VisualObject>();
 
-            for(int i = 0; i < visual_objects_count / 2; i++)
+            for(int i = 0; i < 35; i++)
             {
-                __GameObjects[i] = new Star(
+                SpaceObjects.Add(new Star(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-30, -15), 0),
-                    10);
+                    10));
             }
 
-            for (int i = visual_objects_count / 2; i < (visual_objects_count / 2) + (visual_objects_count / 4); i++)
+            for (int i = 0; i < 10; i++)
             {
-                __GameObjects[i] = new Asteroid(
+                SpaceObjects.Add(new Asteroid(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-15, 15), random.Next(-10, 20)),
-                    new Size(20, 20));
+                    new Size(20, 20)));
             }
 
-            for (int i = (visual_objects_count / 2) + (visual_objects_count / 4); i < visual_objects_count; i++)
+            for (int i = 0; i < 5; i++)
             {
-                __GameObjects[i] = new Planet(
+                SpaceObjects.Add(new Planet(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-10, -5), 0),
-                    random.Next(10,70));
+                    random.Next(10,70)));
             }
-
+            __GameObjects = SpaceObjects.ToArray();
         }
 
         public static void Draw()
@@ -69,9 +70,6 @@ namespace AsteroidGame
             Graphics g = __Buffer.Graphics;
 
             g.Clear(Color.Black);
-
-            //g.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            //g.FillEllipse(Brushes.Red, new Rectangle(100, 100, 200, 200));
 
             foreach (var game_object in __GameObjects)
                 game_object.Draw(g);
