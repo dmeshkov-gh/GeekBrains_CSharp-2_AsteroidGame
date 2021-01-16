@@ -24,12 +24,12 @@ namespace WorkerClass
             comparer.SortBy = SortCriteria.Name;
             Array.Sort(employees, comparer);
 
-            foreach (Employee employee in employees)
-                Console.WriteLine(employee);
+            //foreach (Employee employee in employees)
+            //    Console.WriteLine(employee);
 
-            //Office office = new Office(employees);
-            //foreach(Employee employee in office)
-            //    Console.WriteLine(employee.Name + " " + employee.Surname + " " + employee.MonthlySalary);
+            Office office = new Office(employees);
+            foreach (Employee employee in office)
+                Console.WriteLine(employee.Name + " " + employee.Surname + " " + employee.MonthlySalary);
         }
     }
 }
