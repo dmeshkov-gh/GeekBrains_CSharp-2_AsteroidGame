@@ -9,6 +9,7 @@ namespace AsteroidGame.VisualObjects
 {
     class Asteroid : ImageObject, ICollision
     {
+        Random random = new Random();
         public int Power { get; set; } = 10;
 
         public Rectangle Rect => new Rectangle(_Position, _Size);
@@ -34,5 +35,10 @@ namespace AsteroidGame.VisualObjects
         }
 
         public bool CheckCollision(ICollision obj) => Rect.IntersectsWith(obj.Rect);
+
+        internal void Reset()
+        {
+            _Position.X = Game.Width - _Size.Width * 2;
+        }
     }
 }

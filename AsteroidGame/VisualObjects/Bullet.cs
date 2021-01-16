@@ -29,7 +29,7 @@ namespace AsteroidGame.VisualObjects
 
         public override void Reset()
         {
-            _Position.X = random.Next(random.Next(50, Game.Height - 50));
+            _Position.X = 0;
         }
     }
 }

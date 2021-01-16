@@ -86,11 +86,12 @@ namespace AsteroidGame
                 game_object.Update();
                 if(game_object is Asteroid)
                 {
-                    ICollision myAsteroid = game_object as Asteroid;
+                    Asteroid myAsteroid = game_object as Asteroid;
                     if (myAsteroid.CheckCollision(__MyBullet)) 
                     { 
                         System.Media.SystemSounds.Hand.Play();
                         __MyBullet.Reset();
+                        myAsteroid.Reset();
                     }
                 }
             }
