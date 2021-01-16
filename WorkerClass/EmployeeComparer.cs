@@ -16,13 +16,14 @@ namespace WorkerClass
         public int Compare(Employee x, Employee y)
         {
             if (SortBy == SortCriteria.Salary)
+            {
                 if (x.MonthlySalary > y.MonthlySalary)
                     return 1;
-                else if (x.MonthlySalary < y.MonthlySalary)
-                    return 1;
+                if (x.MonthlySalary < y.MonthlySalary)
+                    return -1;
                 else
                     return 0;
-
+            }
             else if (SortBy == SortCriteria.Name)
                 return x.Name.CompareTo(y.Name);
 

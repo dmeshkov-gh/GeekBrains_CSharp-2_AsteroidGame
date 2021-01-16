@@ -23,6 +23,13 @@ namespace WorkerClass
             EmployeeComparer comparer = new EmployeeComparer();
             comparer.SortBy = SortCriteria.Name;
             Array.Sort(employees, comparer);
+
+            PrintEmployess(employees);
+        }
+        private static void PrintEmployess(Employee[] employees)
+        {
+            foreach(Employee employee in employees)
+                Console.WriteLine(employee.Name + " " + employee.Surname + " " + employee.MonthlySalary);
         }
     }
 }
