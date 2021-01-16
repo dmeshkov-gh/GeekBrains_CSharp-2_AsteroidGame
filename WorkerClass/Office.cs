@@ -9,7 +9,7 @@ namespace WorkerClass
 {
     class Office : IEnumerable<Employee>
     {
-        private Employee[] _Employees;
+        private readonly Employee[] _Employees;
         public Office(Employee[] employees)
         {
             _Employees = employees;
@@ -27,7 +27,7 @@ namespace WorkerClass
     }
     class OfficeEnumerator : IEnumerator<Employee>
     {
-        private Employee[] _Employees;
+        private readonly Employee[] _Employees;
         int position = -1;
         public OfficeEnumerator(Employee[] employees)
         {

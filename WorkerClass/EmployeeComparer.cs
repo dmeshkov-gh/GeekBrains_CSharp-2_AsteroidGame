@@ -13,6 +13,12 @@ namespace WorkerClass
     class EmployeeComparer : IComparer<Employee>
     {
         public SortCriteria SortBy = SortCriteria.Name;
+
+        public EmployeeComparer(SortCriteria sortCriteria)
+        {
+            SortBy = sortCriteria;
+        }
+
         public int Compare(Employee x, Employee y)
         {
             if (SortBy == SortCriteria.Salary)
