@@ -9,17 +9,16 @@ namespace AsteroidGame
 {
     class Asteroid : VisualObject
     {
+        Image asteriod = Image.FromFile("Asteroid.png");
         public Asteroid(Point Position, Point Direction, Size Size) : base(Position, Direction, Size)
         {
         }
 
         public override void Draw(Graphics g)
         {
-            Image asteriod = Image.FromFile("Asteroid.png");
-
             g.DrawImage(asteriod, _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
-        public void Update()
+        public override void Update()
         {
             _Position.X += _Direction.X;
             _Position.Y += _Direction.Y;

@@ -9,6 +9,7 @@ namespace AsteroidGame
 {
     class Planet : VisualObject
     {
+        Image planet = Image.FromFile("Planet.png");
         public Planet(Point Position, Point Direction, int Size)
             : base(Position, Direction, new Size(Size, Size))
         {
@@ -16,12 +17,7 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            Image planet = Image.FromFile("Planet.png");
-
             g.DrawImage(planet, _Position.X, _Position.Y, _Size.Width, _Size.Height);
-
-            //g.DrawEllipse(new Pen(Color.Red, 1), 
-            //    _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
 
         public override void Update()
