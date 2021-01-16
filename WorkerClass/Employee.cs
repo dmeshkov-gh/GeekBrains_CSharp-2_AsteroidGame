@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,14 +11,7 @@ namespace WorkerClass
         public string Surname { get; init; }
 
         public double MonthlySalary { get; protected set; } //Среднемесячная заработная плата
-        public Employee(string name, string surname, double monthlySalary)
-        {
-            Name = name;
-            Surname = surname;
-            MonthlySalary = monthlySalary;
-        }
-
-        protected Employee(string name, string surname)
+        public Employee(string name, string surname)
         {
             Name = name;
             Surname = surname;
