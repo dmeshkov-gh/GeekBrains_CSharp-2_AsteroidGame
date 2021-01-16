@@ -19,5 +19,20 @@ namespace AsteroidGame
 
             g.DrawImage(asteriod, _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
+        public void Update()
+        {
+            _Position.X += _Direction.X;
+            _Position.Y += _Direction.Y;
+
+            if (_Position.X < 0)
+                _Direction.X *= -1;
+            if (_Position.Y < 0)
+                _Direction.Y *= -1;
+
+            if (_Position.X > Game.Width - (_Size.Width * 2))
+                _Direction.X *= -1;
+            if (_Position.Y > Game.Height - (_Size.Height * 4))
+                _Direction.Y *= -1;
+        }
     }
 }
