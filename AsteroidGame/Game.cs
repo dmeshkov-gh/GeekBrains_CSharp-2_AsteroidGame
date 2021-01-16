@@ -39,7 +39,7 @@ namespace AsteroidGame
             Random random = new Random();
             List<VisualObject> SpaceObjects = new List<VisualObject>();
 
-            for(int i = 0; i < 35; i++)
+            for(int i = 0; i < 50; i++)
             {
                 SpaceObjects.Add(new Star(
                     new Point(600, random.Next(0, Game.Width)),
@@ -50,9 +50,9 @@ namespace AsteroidGame
             for (int i = 0; i < 10; i++)
             {
                 SpaceObjects.Add(new Asteroid(
-                    new Point(600, random.Next(0, Game.Width)),
-                    new Point(random.Next(-15, 15), random.Next(-10, 20)),
-                    new Size(20, 20)));
+                    new Point(600, i * 20),
+                    new Point(15 - i, 20 - i),
+                    20));
             }
 
             for (int i = 0; i < 5; i++)
@@ -60,7 +60,7 @@ namespace AsteroidGame
                 SpaceObjects.Add(new Planet(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-10, -5), 0),
-                    random.Next(10,70)));
+                    random.Next(40,70)));
             }
             __GameObjects = SpaceObjects.ToArray();
         }

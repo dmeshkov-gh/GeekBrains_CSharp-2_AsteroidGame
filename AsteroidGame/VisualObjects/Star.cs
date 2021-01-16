@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame.VisualObjects
 {
-    class Star : VisualObject
+    class Star : ImageObject
     {
-        private static readonly Image star = Image.FromFile("Star.jpg");
         public Star(Point Position, Point Direction, int Size) 
-            : base(Position, Direction, new Size(Size, Size))
+            : base(Position, Direction, new Size(Size, Size), Properties.Resources.Star)
         {
-        }
-        public override void Draw(Graphics g)
-        {
-            g.DrawImage(star, _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
 
         public override void Update()
@@ -25,9 +20,6 @@ namespace AsteroidGame.VisualObjects
 
             if (_Position.X < 0)
                 _Position.X = Game.Width + _Size.Width;
-
-            //if (_Position.X > Game.Width /*+ _Size.Width*/)
-            //    _Position.X = 0 - _Size;
         }
     }
 }

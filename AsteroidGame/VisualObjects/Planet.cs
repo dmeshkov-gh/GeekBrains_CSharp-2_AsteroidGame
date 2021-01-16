@@ -7,17 +7,11 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame.VisualObjects
 {
-    class Planet : VisualObject
+    class Planet : ImageObject
     {
-        private static readonly Image planet = Image.FromFile("Planet.png");
         public Planet(Point Position, Point Direction, int Size)
-            : base(Position, Direction, new Size(Size, Size))
+            : base(Position, Direction, new Size(Size, Size), Properties.Resources.Planet)
         {
-        }
-
-        public override void Draw(Graphics g)
-        {
-            g.DrawImage(planet, _Position.X, _Position.Y, _Size.Width, _Size.Height);
         }
 
         public override void Update()
