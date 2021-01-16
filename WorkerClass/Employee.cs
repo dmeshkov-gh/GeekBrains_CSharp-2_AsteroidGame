@@ -14,10 +14,11 @@ namespace WorkerClass
         protected string Surname { get; init; }
 
         protected double MonthlySalary { get; private set; }
-        public Employee(string name, string surname)
+        public Employee(string name, string surname, double monthlySalary)
         {
             Name = name;
             Surname = surname;
+            MonthlySalary = monthlySalary;
         }
         protected abstract void CalculateSalary();
     }
