@@ -18,5 +18,9 @@ namespace WorkerClass
         }
 
         protected abstract double CalculateSalary();
+        public override string ToString()
+        {
+            return Name + " " + Surname + " " + MonthlySalary;
+        }
     }
 }
