@@ -12,6 +12,7 @@ namespace AsteroidGame
         private static BufferedGraphics __Buffer;
 
         private static VisualObject[] __GameObjects;
+        private static Bullet __MyBullet = new Bullet(300);
         public static int Width { get; set; }
         public static int Height { get; set; }
 
@@ -62,6 +63,7 @@ namespace AsteroidGame
                     new Point(random.Next(-10, -5), 0),
                     random.Next(40,70)));
             }
+            SpaceObjects.Add(__MyBullet);
             __GameObjects = SpaceObjects.ToArray();
         }
 
@@ -80,7 +82,14 @@ namespace AsteroidGame
         private static void Update()
         {
             foreach (var game_object in __GameObjects)
+            {
                 game_object.Update();
+                if(game_object is Asteroid)
+                {
+                    ICollision myAsteroid = game_object as Asteroid;
+                    if (myAsteroid.CheckCollision(__MyBullet)) { System.Media.SystemSounds.Hand.Play(); }
+                }
+            }
         }
     }
 }
