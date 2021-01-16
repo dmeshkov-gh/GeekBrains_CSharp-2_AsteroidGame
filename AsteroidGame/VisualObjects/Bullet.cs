@@ -9,6 +9,7 @@ namespace AsteroidGame.VisualObjects
 {
     class Bullet : CollisionObject
     {
+        Random random = new Random();
         private const int __BulletSizeX = 20;
         private const int __BulletSizeY = 5;
         private const int __BulletSpeed = 3;
@@ -25,5 +26,10 @@ namespace AsteroidGame.VisualObjects
         }
 
         public override void Update() => _Position.X += __BulletSpeed;
+
+        public override void Reset()
+        {
+            _Position.X = random.Next(random.Next(50, Game.Height - 50));
+        }
     }
 }
