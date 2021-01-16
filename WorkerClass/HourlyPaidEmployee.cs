@@ -6,13 +6,15 @@ namespace WorkerClass
 {
     class HourlyPaidEmployee : Employee
     {
-        public HourlyPaidEmployee(string name, string surname, double monthlySalary) : base(name, surname, monthlySalary)
+        private const double _HourRate = 5.0; //Почасовая ставка
+        public HourlyPaidEmployee(string name, string surname) : base(name, surname)
         {
+            MonthlySalary = CalculateSalary();
         }
 
-        protected override void CalculateSalary()
+        protected override double CalculateSalary()
         {
-            throw new NotImplementedException();
+            return MonthlySalary = 20.8 * 8 * _HourRate;
         }
     }
 }

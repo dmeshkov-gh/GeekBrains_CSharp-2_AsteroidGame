@@ -6,12 +6,14 @@ namespace WorkerClass
 {
     class FixPaidEmployee : Employee
     {
-        public FixPaidEmployee(string name, string surname, double monthlySalary) : base(name, surname, monthlySalary)
+        private const double FixedSalary = 1200.0; //Фиксированная месячная оплата
+        public FixPaidEmployee(string name, string surname) : base(name, surname)
         {
+            MonthlySalary = CalculateSalary();
         }
-        protected override void CalculateSalary()
+        protected override double CalculateSalary() // Для работников с фиксированной оплатой "среднемесячная заработная плата = фиксированная месячная оплата"
         {
-            throw new NotImplementedException();
+            return FixedSalary;
         }
     }
 }

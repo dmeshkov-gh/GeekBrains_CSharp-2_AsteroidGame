@@ -4,22 +4,25 @@ using System.Text;
 
 namespace WorkerClass
 {
-    //Описать в базовом классе абстрактный метод для расчёта среднемесячной заработной платы.
-    //Для «повременщиков» формула для расчета такова: 
-    //«среднемесячная заработная плата = 20.8 * 8 * почасовая ставка», 
-    //для работников с фиксированной оплатой «среднемесячная заработная плата = фиксированная месячная оплата».
     abstract class Employee
     {
-        protected string Name { get; init; }
-        protected string Surname { get; init; }
+        public string Name { get; init; }
+        public string Surname { get; init; }
 
-        protected double MonthlySalary { get; private set; }
+        public double MonthlySalary { get; protected set; } //Среднемесячная заработная плата
         public Employee(string name, string surname, double monthlySalary)
         {
             Name = name;
             Surname = surname;
             MonthlySalary = monthlySalary;
         }
-        protected abstract void CalculateSalary();
+
+        protected Employee(string name, string surname)
+        {
+            Name = name;
+            Surname = surname;
+        }
+
+        protected abstract double CalculateSalary();
     }
 }
