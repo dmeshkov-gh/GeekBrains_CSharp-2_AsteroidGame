@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame.VisualObjects
 {
-    class Asteroid : ImageObject, ICollision
+    class Asteroid : CollisionObject
     {
         Random random = new Random();
         public int Power { get; set; } = 10;
@@ -18,6 +18,7 @@ namespace AsteroidGame.VisualObjects
             : base(Position, Direction, new Size(Size, Size), Properties.Resources.Asteroid)
         {
         }
+
         public override void Update()
         {
             _Position.X += _Direction.X;
@@ -36,7 +37,7 @@ namespace AsteroidGame.VisualObjects
 
         public bool CheckCollision(ICollision obj) => Rect.IntersectsWith(obj.Rect);
 
-        internal void Reset()
+        public override void Reset()
         {
             _Position.X = Game.Width - _Size.Width * 2;
         }

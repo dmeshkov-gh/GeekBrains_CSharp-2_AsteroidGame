@@ -11,10 +11,40 @@ namespace AsteroidGame
         private static BufferedGraphicsContext __Context;
         private static BufferedGraphics __Buffer;
 
+        private static int __Width;
+        private static int __Height;
+
         private static VisualObject[] __GameObjects;
         private static Bullet __MyBullet;
-        public static int Width { get; set; }
-        public static int Height { get; set; }
+
+        public static int Width
+        {
+            get
+            {
+                return __Width;
+            }
+            set
+            {
+                if (value > 0 && value < 1000)
+                    __Width = value;
+                else
+                    throw new ArgumentOutOfRangeException("Ширина больше 1000 или принимает отрицательное значение");
+            }
+        }
+        public static int Height
+        {
+            get
+            {
+                return __Height;
+            }
+            set
+            {
+                if (value > 0 && value < 1000)
+                    __Height = value;
+                else
+                    throw new ArgumentOutOfRangeException("Высота больше 1000 или принимает отрицательное значение");
+            }
+        }
 
         public static void Initialize(Form GameForm)
         {

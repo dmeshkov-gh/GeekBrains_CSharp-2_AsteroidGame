@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame.VisualObjects
 {
-    abstract class CollisionObject : VisualObject, ICollision
+    abstract class CollisionObject : ImageObject, ICollision
     {
-        protected CollisionObject(Point Position, Point Direction, Size Size) 
-            : base(Position, Direction, Size)
+        protected CollisionObject(Point Position, Point Direction, Size Size, Image Image) 
+            : base(Position, Direction, Size, Image)
         {
         }
         public Rectangle Rect => new Rectangle(_Position, _Size);
