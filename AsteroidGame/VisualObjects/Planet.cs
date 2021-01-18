@@ -16,24 +16,12 @@ namespace AsteroidGame.VisualObjects
             if (Size > 80) throw new GameObjectException("Object has not been created. Planet size should not be more then 80");
         }
 
-        protected override Size Size 
-        { 
-            get => base.Size;
-            set
-            {
-                if (Size.Height < 30 || Size.Height > 70)
-                    throw new GameObjectException("Planet size should no less than 10 and no more than 70");
-                else
-                    Size = base.Size;
-            }
-        }
-
         public override void Update()
         {
             _Position.X += _Direction.X;
 
             if (_Position.X < 0)
-                _Position.X = Game.Width + Size.Width;
+                _Position.X = Game.Width + _Size.Width;
         }
     }
 }

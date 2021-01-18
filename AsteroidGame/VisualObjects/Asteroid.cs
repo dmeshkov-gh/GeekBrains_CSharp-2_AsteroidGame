@@ -26,15 +26,15 @@ namespace AsteroidGame.VisualObjects
             if (_Position.Y < 0)
                 _Direction.Y *= -1;
 
-            if (_Position.X > Game.Width - (Size.Width * 2))
+            if (_Position.X > Game.Width - (_Size.Width * 2))
                 _Direction.X *= -1;
-            if (_Position.Y > Game.Height - (Size.Height * 4))
+            if (_Position.Y > Game.Height - (_Size.Height * 4))
                 _Direction.Y *= -1;
         }
 
         public override void Reset()
         {
-            _Position.X = Game.Width - Size.Width * 2;
+            _Position.X = Game.Width - _Size.Width * 2;
         }
     }
 }

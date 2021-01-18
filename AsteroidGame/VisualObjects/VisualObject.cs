@@ -12,13 +12,13 @@ namespace AsteroidGame.VisualObjects
     {
         protected Point _Position;
         protected Point _Direction;
-        protected virtual Size Size { get; set; }
+        protected Size _Size;
 
         public VisualObject(Point Position, Point Direction, Size Size)
         {
             _Position = Position;
             _Direction = Direction;
-            this.Size = Size;
+            _Size = Size;
         }
         public abstract void Draw(Graphics g);
 
