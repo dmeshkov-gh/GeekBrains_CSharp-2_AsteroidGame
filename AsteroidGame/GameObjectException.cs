@@ -14,8 +14,9 @@ namespace AsteroidGame
         public GameObjectException(string message)
         {
             MessageDetails = message;
+            ErrorTime = DateTime.Now;
         }
 
-        public override string Message => $"[{ErrorTime}]: {MessageDetails}. \nMember name of exception: {TargetSite}";
+        public override string Message => $"[{ErrorTime}]: {MessageDetails}.";
     }
 }

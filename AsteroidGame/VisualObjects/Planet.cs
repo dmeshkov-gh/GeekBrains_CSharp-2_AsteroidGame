@@ -9,9 +9,22 @@ namespace AsteroidGame.VisualObjects
 {
     class Planet : ImageObject
     {
+
         public Planet(Point Position, Point Direction, int Size)
             : base(Position, Direction, new Size(Size, Size), Properties.Resources.Planet)
         {
+        }
+
+        protected override Size Size 
+        { 
+            get => base.Size;
+            set
+            {
+                if (Size.Height < 30 || Size.Height > 70)
+                    throw new GameObjectException("Planet size should no less than 10 and no more than 70");
+                else
+                    Size = base.Size;
+            }
         }
 
         public override void Update()
@@ -19,7 +32,7 @@ namespace AsteroidGame.VisualObjects
             _Position.X += _Direction.X;
 
             if (_Position.X < 0)
-                _Position.X = Game.Width + _Size.Width;
+                _Position.X = Game.Width + Size.Width;
         }
     }
 }
