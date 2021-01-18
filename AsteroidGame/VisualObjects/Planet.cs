@@ -12,6 +12,7 @@ namespace AsteroidGame.VisualObjects
         public Planet(Point Position, Point Direction, int Size)
             : base(Position, Direction, new Size(Size, Size), Properties.Resources.Planet)
         {
+            if (Size > 80) throw new GameObjectException("Planet size should not be more then 80");
         }
 
         public override void Update()

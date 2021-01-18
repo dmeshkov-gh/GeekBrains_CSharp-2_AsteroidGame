@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsteroidGame", "AsteroidGam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C183DBAF-DF31-4786-AAAA-25141E825232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{D72B41F8-689D-4611-980E-8889DC64C1F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{D72B41F8-689D-4611-980E-8889DC64C1F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HomeWorks", "HomeWorks", "{F3C9965D-3B16-4ED8-8AB0-80589FE87EB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerClass", "WorkerClass\WorkerClass.csproj", "{D3CACC0C-1D89-4DB1-9739-6918C090C874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson-2_WorkerClass", "WorkerClass\Lesson-2_WorkerClass.csproj", "{D3CACC0C-1D89-4DB1-9739-6918C090C874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
