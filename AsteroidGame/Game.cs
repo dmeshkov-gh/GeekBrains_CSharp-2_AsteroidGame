@@ -51,6 +51,7 @@ namespace AsteroidGame
 
         public static void Initialize(Form GameForm)
         {
+
             Width = GameForm.Width;
             Height = GameForm.Height;
 
@@ -91,6 +92,7 @@ namespace AsteroidGame
 
             for (int i = 0; i < 5; i++)
             {
+<<<<<<< HEAD
                 try
                 {
                     SpaceObjects.Add(new Planet(
@@ -103,6 +105,12 @@ namespace AsteroidGame
                     __TextFileLogger.Log(e.Message);
                 }
                 
+=======
+                SpaceObjects.Add(new Planet(
+                new Point(600, random.Next(0, Game.Width)),
+                new Point(random.Next(-10, -5), 0),
+                random.Next(30, 70)));   
+>>>>>>> bfea79de07cc7c5c3afe81053477b1d721c4e9df
             }
             SpaceObjects.Add(__MyBullet = new Bullet(random.Next(50, Game.Height - 50)));
             __GameObjects = SpaceObjects.ToArray();

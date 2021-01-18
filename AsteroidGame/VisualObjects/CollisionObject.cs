@@ -13,7 +13,7 @@ namespace AsteroidGame.VisualObjects
             : base(Position, Direction, Size, Image)
         {
         }
-        public Rectangle Rect => new Rectangle(_Position, _Size);
+        public Rectangle Rect => new Rectangle(_Position, Size);
 
         public bool CheckCollision(ICollision obj) => Rect.IntersectsWith(obj.Rect);
 
