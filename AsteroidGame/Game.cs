@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using AsteroidGame.VisualObjects;
+using AsteroidGame.Loggers;
 
 namespace AsteroidGame
 {
@@ -16,6 +17,8 @@ namespace AsteroidGame
 
         private static VisualObject[] __GameObjects;
         private static Bullet __MyBullet;
+
+        private static TextFileLogger __TextFileLogger = new TextFileLogger("Error_Report");
 
         public static int Width
         {
@@ -88,10 +91,18 @@ namespace AsteroidGame
 
             for (int i = 0; i < 5; i++)
             {
-                SpaceObjects.Add(new Planet(
+                try
+                {
+                    SpaceObjects.Add(new Planet(
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-10, -5), 0),
-                    random.Next(30, 70)));   
+                    random.Next(85, 90)));
+                }
+                catch(GameObjectException e)
+                {
+                    __TextFileLogger.Log(e.Message);
+                }
+                
             }
             SpaceObjects.Add(__MyBullet = new Bullet(random.Next(50, Game.Height - 50)));
             __GameObjects = SpaceObjects.ToArray();
