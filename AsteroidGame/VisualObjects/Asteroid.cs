@@ -9,10 +9,7 @@ namespace AsteroidGame.VisualObjects
 {
     class Asteroid : CollisionObject
     {
-        Random random = new Random();
         public int Power { get; set; } = 10;
-
-        public Rectangle Rect => new Rectangle(_Position, _Size);
 
         public Asteroid(Point Position, Point Direction, int Size) 
             : base(Position, Direction, new Size(Size, Size), Properties.Resources.Asteroid)
@@ -34,8 +31,6 @@ namespace AsteroidGame.VisualObjects
             if (_Position.Y > Game.Height - (_Size.Height * 4))
                 _Direction.Y *= -1;
         }
-
-        public bool CheckCollision(ICollision obj) => Rect.IntersectsWith(obj.Rect);
 
         public override void Reset()
         {

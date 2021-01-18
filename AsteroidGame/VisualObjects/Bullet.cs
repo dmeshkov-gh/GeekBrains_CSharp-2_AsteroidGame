@@ -9,7 +9,6 @@ namespace AsteroidGame.VisualObjects
 {
     class Bullet : CollisionObject
     {
-        Random random = new Random();
         private const int __BulletSizeX = 25;
         private const int __BulletSizeY = 10;
         private const int __BulletSpeed = 3;

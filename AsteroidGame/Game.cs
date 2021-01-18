@@ -117,10 +117,10 @@ namespace AsteroidGame
                 if(game_object is Asteroid)
                 {
                     Asteroid myAsteroid = game_object as Asteroid;
-                    if (myAsteroid.CheckCollision(__MyBullet)) 
-                    { 
-                        System.Media.SystemSounds.Hand.Play();
-                        __MyBullet.Reset();
+                    if (myAsteroid.CheckCollision(__MyBullet))  //Проверяем сталкивается ли астероид с пулей
+                    {           
+                        System.Media.SystemSounds.Hand.Play();  //Если да, то издается звуковой сигнал, а объекты разводятся в разные стороны
+                        __MyBullet.Reset();                 
                         myAsteroid.Reset();
                     }
                 }
