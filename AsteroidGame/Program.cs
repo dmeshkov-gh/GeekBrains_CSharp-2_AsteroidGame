@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AsteroidGame
@@ -14,10 +11,22 @@ namespace AsteroidGame
         [STAThread]
         static void Main()
         {
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            Form game_form = new Form
+            {
+                Width = 800,
+                Height = 600
+            };
+
+            game_form.Show();
+
+            Game.Initialize(game_form);
+            Game.Load();
+            Game.Draw();
+
+            Application.Run(game_form);
         }
     }
 }
