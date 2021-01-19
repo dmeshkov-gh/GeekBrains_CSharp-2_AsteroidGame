@@ -17,13 +17,6 @@ namespace AsteroidGame.VisualObjects
         {
         }
 
-        //public override void Draw(Graphics g)
-        //{
-        //    var rect = Rect;
-        //    g.FillEllipse(Brushes.Red, rect);
-        //    g.DrawEllipse(Pens.White, rect);
-        //}
-
         public override void Update() => _Position.X += __BulletSpeed;
 
         public override void Reset()

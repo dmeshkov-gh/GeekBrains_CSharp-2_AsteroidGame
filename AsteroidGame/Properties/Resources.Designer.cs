@@ -93,6 +93,16 @@ namespace AsteroidGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Medikit {
+            get {
+                object obj = ResourceManager.GetObject("Medikit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Planet {
             get {
                 object obj = ResourceManager.GetObject("Planet", resourceCulture);
