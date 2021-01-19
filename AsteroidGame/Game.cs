@@ -7,6 +7,7 @@ using AsteroidGame.Loggers;
 
 namespace AsteroidGame
 {
+    delegate void LogRecorder(Logger Logger, LogType LogType, string Message); //Запись в журнал
     static class Game
     {
         private static BufferedGraphicsContext __Context;
@@ -20,7 +21,10 @@ namespace AsteroidGame
         private static SpaceShip __MySpaceShip;
         private static Timer __Timer;
 
-        private static TextFileLogger __TextFileLogger = new TextFileLogger("Report");
+        private static Logger __TextFileLogger = new TextFileLogger("Report");
+        private static Logger __ConsoleLogger = new ConsoleLogger();
+
+        private static LogRecorder __LogRecorder;
 
         public static int Width
         {
@@ -95,12 +99,15 @@ namespace AsteroidGame
             Random random = new Random();
             List<VisualObject> SpaceObjects = new List<VisualObject>();
 
+            __LogRecorder = LogMessage; // Добавляем делегат, который будет записывать информацию в журнал
+
             for(int i = 0; i < 50; i++)
             {
                 SpaceObjects.Add(new Star(
                     new Point(random.Next(0, Game.Width), random.Next(0, Game.Height)),
                     new Point(random.Next(-30, -15), 0),
                     10));
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i+1} has been created");
             }
 
             for (int i = 0; i < 10; i++)
@@ -109,6 +116,7 @@ namespace AsteroidGame
                     new Point(random.Next(50, Game.Width - 50), random.Next(50, Game.Height - 50)),
                     new Point(-random.Next(0, 20), 20 - i),
                     20));
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i + 1} has been created");
             }
 
             for (int i = 0; i < 5; i++)
@@ -119,10 +127,11 @@ namespace AsteroidGame
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-10, -5), 0),
                     random.Next(30, 90)));
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i + 1} has been created");
                 }
                 catch(GameObjectException e)
                 {
-                    __TextFileLogger.LogError(e.Message);
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, e.Message);
                 }
 
             }
@@ -184,6 +193,11 @@ namespace AsteroidGame
                     System.Media.SystemSounds.Hand.Play();
                 }
             }
+        }
+
+        private static void LogMessage(Logger Logger, LogType LogType, string Message)
+        {
+            Logger.Log(LogType, Message);
         }
     }
 }
