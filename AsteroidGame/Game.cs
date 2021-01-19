@@ -23,8 +23,9 @@ namespace AsteroidGame
 
         private static Logger __TextFileLogger = new TextFileLogger("Report");
         private static Logger __ConsoleLogger = new ConsoleLogger();
+        private static Logger __CombineLogger = new CombineLogger(__ConsoleLogger, __TextFileLogger); // Комбинированный логгер - в консоль и в файл
 
-        private static LogRecorder __LogRecorder;
+        private static LogRecorder __LogRecorder = LogMessage; // Добавляем делегат, который будет записывать информацию в журнал
 
         public static int Width
         {
@@ -36,7 +37,11 @@ namespace AsteroidGame
             {
                 __Width = value;
                 if (value < 0 && value > 1000)
-                    throw new ArgumentOutOfRangeException("Ширина больше 1000 или принимает отрицательное значение");
+                {
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, "An attempt to create form with width less than zero or more than 1000!");
+                    throw new ArgumentOutOfRangeException("Width can't be more than 1000 or less than 0");
+                }
+                    
             }
         }
         public static int Height
@@ -49,13 +54,21 @@ namespace AsteroidGame
             {
                 __Height = value;
                 if (value < 0 && value > 1000)
-                    throw new ArgumentOutOfRangeException("Высота больше 1000 или принимает отрицательное значение");
+                {
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, "An attempt to create form with height less than zero or more than 1000!");
+                    throw new ArgumentOutOfRangeException("Height can't be more than 1000 or less than 0");
+                }   
             }
         }
 
         public static void Initialize(Form GameForm)
         {
-            if (GameForm == null) throw new NullReferenceException("Game form has not been created");
+            if (GameForm == null) 
+            {
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, "Form does not exist!");
+                throw new NullReferenceException("Game form has not been created");
+            }
+            
             Width = GameForm.Width;
             Height = GameForm.Height;
 
@@ -99,8 +112,6 @@ namespace AsteroidGame
             Random random = new Random();
             List<VisualObject> SpaceObjects = new List<VisualObject>();
 
-            __LogRecorder = LogMessage; // Добавляем делегат, который будет записывать информацию в журнал
-
             for(int i = 0; i < 50; i++)
             {
                 SpaceObjects.Add(new Star(
@@ -131,7 +142,7 @@ namespace AsteroidGame
                 }
                 catch(GameObjectException e)
                 {
-                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, e.Message);
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning, e.Message);
                 }
 
             }
@@ -153,6 +164,8 @@ namespace AsteroidGame
             g.Clear(Color.Black);
             g.DrawString("GAME OVER", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.White, 120, 200);
             __Buffer.Render();
+
+            __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, $"Object {__MySpaceShip.GetType()} got destroyed"); //Запись в журнал при разрушении корабля
         }
 
         public static void Draw()
@@ -184,10 +197,12 @@ namespace AsteroidGame
 
                 if(game_object is ICollision collision_object)
                 {
-                    __MySpaceShip.CheckCollision(collision_object);
+                    if(__MySpaceShip.CheckCollision(collision_object))
+                        __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning, $"Object {__MySpaceShip.GetType()} got damage"); // В журнал, если корабль получил ущерб
 
                     if (__MyBullet?.CheckCollision(collision_object) != true) continue;
 
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning, $"Object {__MyBullet.GetType()} hit {collision_object.GetType()}"); // В журнал, если пуля попала в астероид
                     __MyBullet = null;
                     __GameObjects[i] = null;
                     System.Media.SystemSounds.Hand.Play();
