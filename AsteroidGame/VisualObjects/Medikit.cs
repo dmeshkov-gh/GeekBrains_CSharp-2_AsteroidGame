@@ -11,8 +11,8 @@ namespace AsteroidGame.VisualObjects
     {
         private static int _Medikit_Size = 15;
         private static int _Medikit_Speed = -15;
-        public Medikit(int Position, Point Direction, int Size, Image Image) 
-            : base(new Point(Game.Width - _Medikit_Size, 0), Point.Empty, new Size(Size, Size), Properties.Resources.Medikit)
+        public Medikit(int Position) 
+            : base(new Point(Position, Position), Point.Empty, new Size(_Medikit_Size, _Medikit_Size), Properties.Resources.Medikit)
         {
         }
 
@@ -21,7 +21,13 @@ namespace AsteroidGame.VisualObjects
             _Position.X = Game.Width - _Medikit_Size;
         }
 
-        public override void Update() => _Position.X += _Medikit_Speed;
+        public override void Update()
+        {
+            _Position.X += _Medikit_Speed;
+
+            if (_Position.X < 0)
+                _Position.X = Game.Width;
+        }
 
         public void Heal(SpaceShip SpaceShip) => SpaceShip.Energy += 5;
     }

@@ -118,7 +118,7 @@ namespace AsteroidGame
                     new Point(random.Next(0, Game.Width), random.Next(0, Game.Height)),
                     new Point(random.Next(-30, -15), 0),
                     10));
-                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i+1} has been created");
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Star #{i+1} has been created");
             }
 
             for (int i = 0; i < 10; i++)
@@ -127,7 +127,7 @@ namespace AsteroidGame
                     new Point(random.Next(50, Game.Width - 50), random.Next(50, Game.Height - 50)),
                     new Point(-random.Next(0, 20), 20 - i),
                     20));
-                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i + 1} has been created");
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Asteroid #{i + 1} has been created");
             }
 
             for (int i = 0; i < 5; i++)
@@ -138,7 +138,7 @@ namespace AsteroidGame
                     new Point(600, random.Next(0, Game.Width)),
                     new Point(random.Next(-10, -5), 0),
                     random.Next(30, 90)));
-                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {SpaceObjects[i].GetType()} #{i + 1} has been created");
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Planet #{i + 1} has been created");
                 }
                 catch(GameObjectException e)
                 {
@@ -146,6 +146,13 @@ namespace AsteroidGame
                 }
 
             }
+
+            for(int i = 0; i < 3; i++)
+            {
+                SpaceObjects.Add(new Medikit(random.Next(50, Game.Height - 50)));
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Medikit #{i + 1} has been created");
+            }
+
             __GameObjects = SpaceObjects.ToArray();
 
             __MyBullet = new Bullet(random.Next(50, Game.Height - 50));
@@ -195,7 +202,17 @@ namespace AsteroidGame
             {
                 var game_object = __GameObjects[i];
 
-                if(game_object is ICollision collision_object)
+                if (game_object is Medikit medikit)
+                {
+                    if (__MySpaceShip.CheckCollision(medikit))
+                    {
+                        medikit?.Heal(__MySpaceShip);
+                        __GameObjects[i] = null;
+                        __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object {__MySpaceShip.GetType()} got healed");
+                    }
+                }
+
+                if (game_object is ICollision collision_object)
                 {
                     if(__MySpaceShip.CheckCollision(collision_object))
                         __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning, $"Object {__MySpaceShip.GetType()} got damage"); // В журнал, если корабль получил ущерб
