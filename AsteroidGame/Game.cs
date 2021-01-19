@@ -28,9 +28,8 @@ namespace AsteroidGame
             }
             set
             {
-                if (value > 0 && value < 1000)
-                    __Width = value;
-                else
+                __Width = value;
+                if (value < 0 && value > 1000)
                     throw new ArgumentOutOfRangeException("Ширина больше 1000 или принимает отрицательное значение");
             }
         }
@@ -42,16 +41,15 @@ namespace AsteroidGame
             }
             set
             {
-                if (value > 0 && value < 1000)
-                    __Height = value;
-                else
+                __Height = value;
+                if (value < 0 && value > 1000)
                     throw new ArgumentOutOfRangeException("Высота больше 1000 или принимает отрицательное значение");
             }
         }
 
         public static void Initialize(Form GameForm)
         {
-
+            if (GameForm == null) throw new NullReferenceException("Game form has not been created");
             Width = GameForm.Width;
             Height = GameForm.Height;
 
