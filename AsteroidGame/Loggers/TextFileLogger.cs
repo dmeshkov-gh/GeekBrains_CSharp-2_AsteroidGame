@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AsteroidGame.Loggers
 {
-    class TextFileLogger
+    class TextFileLogger : Logger
     {
         private readonly TextWriter _Writer;
 
@@ -12,13 +12,13 @@ namespace AsteroidGame.Loggers
             _Writer = File.CreateText(FileName);
         }
 
-        public void Log(string Message)
+        public override void Log(string Message)
         {
             _Writer.WriteLine(Message);
             Flush();
         }
 
-        private void Flush()
+        public override void Flush()
         {
             _Writer.Flush();
         }

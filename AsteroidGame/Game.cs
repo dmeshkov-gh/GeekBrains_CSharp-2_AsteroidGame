@@ -20,7 +20,7 @@ namespace AsteroidGame
         private static SpaceShip __MySpaceShip;
         private static Timer __Timer;
 
-        private static TextFileLogger __TextFileLogger = new TextFileLogger("Error_Report");
+        private static TextFileLogger __TextFileLogger = new TextFileLogger("Report");
 
         public static int Width
         {
@@ -122,7 +122,7 @@ namespace AsteroidGame
                 }
                 catch(GameObjectException e)
                 {
-                    __TextFileLogger.Log(e.Message);
+                    __TextFileLogger.LogError(e.Message);
                 }
 
             }
