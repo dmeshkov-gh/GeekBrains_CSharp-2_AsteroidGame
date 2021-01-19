@@ -7,27 +7,21 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame
 {
-    class Planet : VisualObject
+    class Planet : ImageObject
     {
+
         public Planet(Point Position, Point Direction, int Size)
-            : base(Position, Direction, new Size(Size, Size))
+            : base(Position, Direction, new Size(Size, Size), Properties.Resources.Planet)
         {
+            if (Size > 80) throw new GameObjectException("Object has not been created. Planet size should not be more then 80");
         }
-
-        public override void Draw(Graphics g)
-        {
-            Image planet = Image.FromFile("Planet.png");
-
-            g.DrawImage(planet, _Position.X, _Position.Y, _Size.Width, _Size.Height);
-              
-     	}
 
         public override void Update()
         {
             _Position.X += _Direction.X;
 
             if (_Position.X < 0)
-                _Position.X = Game.Width
+                _Position.X = Game.Width;
         }
     }
 }
