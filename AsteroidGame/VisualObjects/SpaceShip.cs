@@ -46,7 +46,7 @@ namespace AsteroidGame.VisualObjects
             if (_Position.Y > 0)
                 _Position.Y -= _Direction.Y;
         }
-        public void ModeDown()
+        public void MoveDown()
         {
             if (_Position.Y - _Size.Height < Game.Height)
                 _Position.Y += _Direction.Y;

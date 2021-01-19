@@ -62,7 +62,28 @@ namespace AsteroidGame
             __Timer = new Timer { Interval = 100 };
             __Timer.Tick += OnTimerTick;
             __Timer.Start();
+
+            GameForm.KeyDown += OnGameForm_KeyDown; 
         }
+
+        private static void OnGameForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.ControlKey:
+                    __MyBullet = new Bullet(__MySpaceShip.Rect.Y);
+                    break;
+
+                case Keys.Up:
+                    __MySpaceShip.MoveUp();
+                    break;
+
+                case Keys.Down:
+                    __MySpaceShip.MoveDown();
+                    break;
+            }
+        }
+
         private static void OnTimerTick(object sender, EventArgs e)
         {
             Update();
@@ -85,8 +106,8 @@ namespace AsteroidGame
             for (int i = 0; i < 10; i++)
             {
                 SpaceObjects.Add(new Asteroid(
-                    new Point(600, i * 20),
-                    new Point(15 - i, 20 - i),
+                    new Point(random.Next(50, Game.Width - 50), random.Next(50, Game.Height - 50)),
+                    new Point(-random.Next(0, 20), 20 - i),
                     20));
             }
 
@@ -113,6 +134,16 @@ namespace AsteroidGame
                 new Point(0, random.Next(0, Game.Height - 30)),
                 new Point(5, 5),
                 new Size(30, 15));
+            __MySpaceShip.Destroyed += OnShipDestroyed;
+        }
+
+        private static void OnShipDestroyed(object sender, EventArgs e)
+        {
+            __Timer.Stop();
+            Graphics g = __Buffer.Graphics;
+            g.Clear(Color.Black);
+            g.DrawString("GAME OVER", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.White, 120, 200);
+            __Buffer.Render();
         }
 
         public static void Draw()
@@ -122,31 +153,35 @@ namespace AsteroidGame
             g.Clear(Color.Black);
 
             foreach (var game_object in __GameObjects) //Отрисовываем объекты
-                game_object.Draw(g);
+                game_object?.Draw(g);
 
-            __MyBullet.Draw(g); //Рисуем пулю
+            __MyBullet?.Draw(g); //Рисуем пулю
             __MySpaceShip.Draw(g); //Рисуем корабль
 
+            if (!__Timer.Enabled) return;
             __Buffer.Render();
         }
 
         private static void Update()
         {
-            __MyBullet.Update();
-            __MySpaceShip.Update();
-
             foreach (var game_object in __GameObjects)
+                game_object?.Update();
+
+            __MyBullet?.Update();
+
+            for(int i = 0; i < __GameObjects.Length; i++)
             {
-                game_object.Update();
-                if(game_object is Asteroid)
+                var game_object = __GameObjects[i];
+
+                if(game_object is ICollision collision_object)
                 {
-                    Asteroid myAsteroid = game_object as Asteroid;
-                    if (myAsteroid.CheckCollision(__MyBullet))  //Проверяем сталкивается ли астероид с пулей
-                    {           
-                        System.Media.SystemSounds.Hand.Play();  //Если да, то издается звуковой сигнал, а объекты разводятся в разные стороны
-                        __MyBullet.Reset();                 
-                        myAsteroid.Reset();
-                    }
+                    __MySpaceShip.CheckCollision(collision_object);
+
+                    if (__MyBullet?.CheckCollision(collision_object) != true) continue;
+
+                    __MyBullet = null;
+                    __GameObjects[i] = null;
+                    System.Media.SystemSounds.Hand.Play();
                 }
             }
         }
