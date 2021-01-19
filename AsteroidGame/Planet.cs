@@ -29,7 +29,7 @@ namespace AsteroidGame
             _Position.X += _Direction.X;
 
             if (_Position.X < 0)
-                _Position.X = Game.Width + _Size.Width;
+                _Position.X = Game.Width
         }
     }
 }
