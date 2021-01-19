@@ -17,6 +17,8 @@ namespace AsteroidGame
 
         private static VisualObject[] __GameObjects;
         private static Bullet __MyBullet;
+        private static SpaceShip __MySpaceShip;
+        private static Timer __Timer;
 
         private static TextFileLogger __TextFileLogger = new TextFileLogger("Error_Report");
 
@@ -57,9 +59,9 @@ namespace AsteroidGame
             Graphics g = GameForm.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-            Timer timer = new Timer { Interval = 100 };
-            timer.Tick += OnTimerTick;
-            timer.Start();
+            __Timer = new Timer { Interval = 100 };
+            __Timer.Tick += OnTimerTick;
+            __Timer.Start();
         }
         private static void OnTimerTick(object sender, EventArgs e)
         {
@@ -75,7 +77,7 @@ namespace AsteroidGame
             for(int i = 0; i < 50; i++)
             {
                 SpaceObjects.Add(new Star(
-                    new Point(600, random.Next(0, Game.Width)),
+                    new Point(random.Next(0, Game.Width), random.Next(0, Game.Height)),
                     new Point(random.Next(-30, -15), 0),
                     10));
             }
@@ -103,8 +105,14 @@ namespace AsteroidGame
                 }
 
             }
-            SpaceObjects.Add(__MyBullet = new Bullet(random.Next(50, Game.Height - 50)));
             __GameObjects = SpaceObjects.ToArray();
+
+            __MyBullet = new Bullet(random.Next(50, Game.Height - 50));
+
+            __MySpaceShip = new SpaceShip(
+                new Point(0, random.Next(0, Game.Height - 30)),
+                new Point(5, 5),
+                new Size(30, 15));
         }
 
         public static void Draw()
@@ -113,14 +121,20 @@ namespace AsteroidGame
 
             g.Clear(Color.Black);
 
-            foreach (var game_object in __GameObjects)
+            foreach (var game_object in __GameObjects) //Отрисовываем объекты
                 game_object.Draw(g);
+
+            __MyBullet.Draw(g); //Рисуем пулю
+            __MySpaceShip.Draw(g); //Рисуем корабль
 
             __Buffer.Render();
         }
 
         private static void Update()
         {
+            __MyBullet.Update();
+            __MySpaceShip.Update();
+
             foreach (var game_object in __GameObjects)
             {
                 game_object.Update();
