@@ -157,16 +157,13 @@ namespace AsteroidGame
 
             __GameObjects = SpaceObjects.ToArray();
 
-            __MyBullet = new Bullet(random.Next(50, Game.Height - 50));
-            __MyBullet.Hit += OnHit;
-
-            __PointCounter = new PointCounter();
-
             __MySpaceShip = new SpaceShip(
                 new Point(0, random.Next(0, Game.Height - 30)),
                 new Point(5, 5),
                 new Size(30, 15));
             __MySpaceShip.Destroyed += OnShipDestroyed;
+
+            __PointCounter = new PointCounter();
         }
 
         private static void OnShipDestroyed(object sender, EventArgs e)
@@ -192,7 +189,7 @@ namespace AsteroidGame
            __MyBullet?.Draw(g);
       
             __MySpaceShip.Draw(g); //Рисуем корабль
-            __PointCounter.Draw(g);
+            __PointCounter.Draw(g, __MySpaceShip);
 
             if (!__Timer.Enabled) return;
             __Buffer.Render();

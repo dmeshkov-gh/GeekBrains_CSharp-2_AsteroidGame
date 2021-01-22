@@ -21,6 +21,10 @@ namespace AsteroidGame.VisualObjects
         {
             g.DrawString($"POINTS: {Points}", new Font("Arial", 16), new SolidBrush(Color.White), _Position.X, _Position.Y);
         }
+        public void Draw(Graphics g, SpaceShip SpaceShip)
+        {
+            g.DrawString($"POINTS: {Points} \nHP: {SpaceShip.Energy}", new Font("Arial", 16), new SolidBrush(Color.White), _Position.X, _Position.Y);
+        }
 
         public override void Update() 
         {
