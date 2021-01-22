@@ -10,7 +10,7 @@ namespace AsteroidGame.VisualObjects
     class SpaceShip : ImageObject, ICollision
     {
         public event EventHandler Destroyed;
-        public int Energy { get; set; } = 20;
+        public int Energy { get; set; } = 25;
 
         public Rectangle Rect => new Rectangle(_Position, _Size);
 
@@ -35,7 +35,7 @@ namespace AsteroidGame.VisualObjects
         private void ChangeEnergy(int delta)
         {
             Energy += delta;
-            if (Energy < 0)
+            if (Energy <= 0)
             {
                 Destroyed?.Invoke(this, EventArgs.Empty);
             }
