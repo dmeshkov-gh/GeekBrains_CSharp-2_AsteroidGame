@@ -11,18 +11,11 @@ namespace AsteroidGame.VisualObjects
     {
         private const int __BulletSizeX = 25;
         private const int __BulletSizeY = 10;
-        private const int __BulletSpeed = 3;
+        private const int __BulletSpeed = 7;
         public Bullet(int Position)
-            : base(new Point(0, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY), Properties.Resources.Bullet)
+            : base(new Point(0, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY), Properties.Resources.Fire)
         {
         }
-
-        //public override void Draw(Graphics g)
-        //{
-        //    var rect = Rect;
-        //    g.FillEllipse(Brushes.Red, rect);
-        //    g.DrawEllipse(Pens.White, rect);
-        //}
 
         public override void Update() => _Position.X += __BulletSpeed;
 

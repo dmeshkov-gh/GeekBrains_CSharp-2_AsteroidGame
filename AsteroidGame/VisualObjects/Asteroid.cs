@@ -9,7 +9,7 @@ namespace AsteroidGame.VisualObjects
 {
     class Asteroid : CollisionObject
     {
-        public int Power { get; set; } = 10;
+        public int Power { get; set; } = 5;
 
         public Asteroid(Point Position, Point Direction, int Size) 
             : base(Position, Direction, new Size(Size, Size), Properties.Resources.Asteroid)
