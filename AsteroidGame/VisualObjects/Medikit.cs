@@ -23,6 +23,8 @@ namespace AsteroidGame.VisualObjects
 
         public override void Update()
         {
+            if (!Enabled) return;
+
             _Position.X += _Medikit_Speed;
 
             if (_Position.X < 0)

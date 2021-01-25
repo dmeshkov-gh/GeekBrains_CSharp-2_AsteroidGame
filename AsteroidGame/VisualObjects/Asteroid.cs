@@ -18,6 +18,8 @@ namespace AsteroidGame.VisualObjects
 
         public override void Update()
         {
+            if (!Enabled) return;
+
             _Position.X += _Direction.X;
             _Position.Y += _Direction.Y;
 

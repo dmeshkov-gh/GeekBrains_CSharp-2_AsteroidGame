@@ -17,11 +17,20 @@ namespace AsteroidGame.VisualObjects
         {
         }
 
-        public override void Update() => _Position.X += __BulletSpeed;
+        public override void Update()
+        {
+            if (!Enabled) return;
+
+            _Position.X += __BulletSpeed;
+        }
 
         public override void Reset()
         {
             _Position.X = 0;
+        }
+        public void Reset(int Y)
+        {
+            _Position = new Point(0, Y);
         }
     }
 }
