@@ -38,5 +38,9 @@ namespace AsteroidGame.VisualObjects
         {
             _Position.X = Game.Width - _Size.Width * 2;
         }
+        public void Reset(int Y)
+        {
+            _Position = new Point(Game.Width - 50, Y);
+        }
     }
 }
