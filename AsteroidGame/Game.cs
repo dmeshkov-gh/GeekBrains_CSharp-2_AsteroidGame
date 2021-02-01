@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
 using AsteroidGame.VisualObjects;
 using AsteroidGame.Loggers;
 
@@ -16,9 +17,14 @@ namespace AsteroidGame
         private static int __Width;
         private static int __Height;
 
-        private static VisualObject[] __GameObjects;
-        private static Bullet __MyBullet;
-        private static SpaceShip __MySpaceShip;
+        private static Random random = new Random();
+
+        private static List<VisualObject> __VisualObjects = new();
+        private static int __NumberOfAsteroids = 3;
+        private static List<Asteroid> __Asteroids = new List<Asteroid>(__NumberOfAsteroids);
+        private static List<Bullet> __Bullets = new();
+        private static List<Medikit> __Medikits = new();
+        private static SpaceShip __SpaceShip;
         private static PointCounter __PointCounter;
         private static Timer __Timer;
 
@@ -89,16 +95,25 @@ namespace AsteroidGame
             switch (e.KeyCode)
             {
                 case Keys.ControlKey:
-                    __MyBullet = new Bullet(__MySpaceShip.Rect.Y);
-                    __MyBullet.Hit += OnHit;
+                    var new_bullet = new Bullet(__SpaceShip.Rect.Y);
+                    new_bullet.Hit += OnHit; // Добавляем пуле обработчик события при столкновении с астероидом
+
+                    var disabled_bullet = __Bullets.FirstOrDefault(b => !b.Enabled);
+                    if (disabled_bullet != null)
+                    {
+                        disabled_bullet.Enabled = true;
+                        disabled_bullet.Reset(__SpaceShip.Rect.Y);
+                    }
+                    else
+                        __Bullets.Add(new_bullet);
                     break;
 
                 case Keys.Up:
-                    __MySpaceShip.MoveUp();
+                    __SpaceShip.MoveUp();
                     break;
 
                 case Keys.Down:
-                    __MySpaceShip.MoveDown();
+                    __SpaceShip.MoveDown();
                     break;
             }
         }
@@ -111,33 +126,23 @@ namespace AsteroidGame
 
         public static void Load()
         {
-            Random random = new Random();
-            List<VisualObject> SpaceObjects = new List<VisualObject>();
+            
 
-            for(int i = 0; i < 50; i++)
+            for(int i = 0; i < 50; i++) // Загружаем звёзды
             {
-                SpaceObjects.Add(new Star(
-                    new Point(random.Next(0, Game.Width), random.Next(0, Game.Height)),
+                __VisualObjects.Add(new Star(
+                    new Point(random.Next(0, Width), random.Next(0, Height)),
                     new Point(random.Next(-30, -15), 0),
                     10));
                 __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Star #{i + 1} has been created");
             }
 
-            for (int i = 0; i < 10; i++)
-            {
-                SpaceObjects.Add(new Asteroid(
-                    new Point(random.Next(50, Game.Width - 50), random.Next(50, Game.Height - 50)),
-                    new Point(-random.Next(0, 20), 20 - i),
-                    20));
-                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Asteroid #{i + 1} has been created");
-            }
-
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++) // Загружаем планеты
             {
                 try
                 {
-                    SpaceObjects.Add(new Planet(
-                    new Point(600, random.Next(0, Game.Width)),
+                    __VisualObjects.Add(new Planet(
+                    new Point(600, random.Next(0, Width)),
                     new Point(random.Next(-10, -5), 0),
                     random.Next(30, 90)));
                     __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Planet #{i + 1} has been created");
@@ -149,21 +154,46 @@ namespace AsteroidGame
 
             }
 
-            for(int i = 0; i < 3; i++)
+            LoadAsteroids(__NumberOfAsteroids);
+
+            for (int i = 0; i < 3; i++) // Загружаем аптечки
             {
-                SpaceObjects.Add(new Medikit(random.Next(50, Game.Height - 50)));
+                __Medikits.Add(new Medikit(random.Next(50, Height - 50)));
                 __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Medikit #{i + 1} has been created");
             }
 
-            __GameObjects = SpaceObjects.ToArray();
+            __Bullets.Clear(); // Убираем пули с экрана, если есть
 
-            __MySpaceShip = new SpaceShip(
-                new Point(0, random.Next(0, Game.Height - 30)),
+            __SpaceShip = new SpaceShip(                        //Создаем корабль
+                new Point(0, random.Next(0, Height - 30)),
                 new Point(5, 5),
                 new Size(30, 15));
-            __MySpaceShip.Destroyed += OnShipDestroyed;
+            __SpaceShip.Destroyed += OnShipDestroyed;
 
-            __PointCounter = new PointCounter();
+            __PointCounter = new PointCounter(); // Создаем объект для отображения сбитых астероидов и оставшейся энергии корабля
+        }
+
+        private static void LoadAsteroids(int Number)
+        {
+            for (int i = 0; i < Number; i++) // Загружаем астероиды
+            {
+                var disables_asteroid = __Asteroids.FirstOrDefault(a => !a.Enabled);
+
+                if(disables_asteroid != null)
+                {
+                    disables_asteroid.Enabled = true;
+                    disables_asteroid.Reset(random.Next(50, Height - 50));
+                }
+                else
+                {
+                    __Asteroids.Add(new Asteroid(
+                    new Point(random.Next(200, Width - 50), random.Next(50, Height - 50)),
+                    new Point(-random.Next(0, 20), 20 - i),
+                    20));
+                }
+
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Object Asteroid #{i + 1} has been created");
+            }
         }
 
         private static void OnShipDestroyed(object sender, EventArgs e)
@@ -174,7 +204,7 @@ namespace AsteroidGame
             g.DrawString("GAME OVER", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.White, 120, 200);
             __Buffer.Render();
 
-            __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, $"Spaceship got destroyed. Shapeship energy {__MySpaceShip.Energy}."); //Запись в журнал при разрушении корабля
+            __LogRecorder?.Invoke(__TextFileLogger, LogType.LogCritical, $"Spaceship got destroyed. Shapeship energy {__SpaceShip.Energy}."); //Запись в журнал при разрушении корабля
         }
 
         public static void Draw()
@@ -183,13 +213,20 @@ namespace AsteroidGame
 
             g.Clear(Color.Black);
 
-            foreach (var game_object in __GameObjects) //Отрисовываем объекты
+            foreach (var game_object in __VisualObjects) //Отрисовываем объекты, не участвующие в игре
                 game_object?.Draw(g);
 
-           __MyBullet?.Draw(g);
+            foreach (var asteroid in __Asteroids) //Рисуем игровые объекты - астероиды, пули, корабль, аптечки
+                asteroid?.Draw(g);
+
+            foreach (var medikit in __Medikits)
+                medikit.Draw(g);
+
+            __Bullets.ForEach(bullet => bullet.Draw(g)); 
       
-            __MySpaceShip.Draw(g); //Рисуем корабль
-            __PointCounter.Draw(g, __MySpaceShip);
+            __SpaceShip.Draw(g); 
+
+            __PointCounter.Draw(g, __SpaceShip); // Рисуем информационное поле
 
             if (!__Timer.Enabled) return;
             __Buffer.Render();
@@ -197,38 +234,53 @@ namespace AsteroidGame
 
         private static void Update()
         {
-            foreach (var game_object in __GameObjects)
-                game_object?.Update();      
+            foreach (var game_object in __VisualObjects)
+                game_object?.Update();
 
-            __MyBullet?.Update();
+            foreach (var asteroid in __Asteroids)
+                asteroid?.Update();
 
-            for (int i = 0; i < __GameObjects.Length; i++)
+            foreach (var medikit in __Medikits)
+                medikit?.Update();
+
+            __Bullets?.ForEach(bullet => bullet.Update());
+
+            foreach(var asteroid in __Asteroids.Where(a => a.Enabled).OfType<ICollision>())
             {
-                var game_object = __GameObjects[i];
-
-                if (game_object is Medikit medikit)
+                if (__SpaceShip.CheckCollision(asteroid))
                 {
-                    if (__MySpaceShip.CheckCollision(medikit))
-                    {
-                        medikit?.Heal(__MySpaceShip);
-                        __GameObjects[i] = null;
-                        __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Spaceship got healed. Shapeship energy {__MySpaceShip.Energy}.");
-                    }
+                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning,
+                        $"Spaceship got {((Asteroid)asteroid).Power} damage. Shapeship energy {__SpaceShip.Energy}.");
+
+                    ((VisualObject)asteroid).Enabled = false;
+                    continue;
                 }
 
-                if (game_object is Asteroid collision_object)
+                foreach(var bullet in __Bullets.Where(b => b.Enabled))
                 {
-                    if(__MySpaceShip.CheckCollision(collision_object))
-                        __LogRecorder?.Invoke(__TextFileLogger, LogType.LogWarning, $"Spaceship got {collision_object.Power} damage. Shapeship energy {__MySpaceShip.Energy}."); // В журнал, если корабль получил ущерб
-
-                    if (__MyBullet?.CheckCollision(collision_object) != true) continue;
-
-                    __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"{__MyBullet.GetType()} hit {collision_object.GetType()}."); // В журнал, если пуля попала в астероид
-                    __MyBullet = null;
-                    __GameObjects[i] = null;
+                    if (!bullet.CheckCollision(asteroid)) continue;
                     System.Media.SystemSounds.Hand.Play();
+                    ((VisualObject)asteroid).Enabled = false;
+                    bullet.Enabled = false;
                 }
             }
+
+            if (__Asteroids.All(a => !a.Enabled)) // Проверяем остались ли астероиды в игре
+            {
+                __NumberOfAsteroids++;
+                LoadAsteroids(__NumberOfAsteroids);
+            }  
+
+            foreach(var medikit in __Medikits.Where(m => m.Enabled && __SpaceShip.CheckCollision(m)))
+            {
+                medikit?.Heal(__SpaceShip);
+                medikit.Enabled = false;
+                __LogRecorder?.Invoke(__TextFileLogger, LogType.LogInformation, $"Spaceship got healed. Shapeship energy {__SpaceShip.Energy}.");
+            }
+
+            foreach (var bullet in __Bullets.Where(b => b.Enabled && b.Rect.X > Width))
+                bullet.Enabled = false;
+
         }
 
         private static void OnHit(object sender, EventArgs e)

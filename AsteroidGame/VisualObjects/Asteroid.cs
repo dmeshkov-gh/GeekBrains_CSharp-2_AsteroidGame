@@ -18,6 +18,8 @@ namespace AsteroidGame.VisualObjects
 
         public override void Update()
         {
+            if (!Enabled) return;
+
             _Position.X += _Direction.X;
             _Position.Y += _Direction.Y;
 
@@ -35,6 +37,10 @@ namespace AsteroidGame.VisualObjects
         public override void Reset()
         {
             _Position.X = Game.Width - _Size.Width * 2;
+        }
+        public void Reset(int Y)
+        {
+            _Position = new Point(Game.Width - 50, Y);
         }
     }
 }
